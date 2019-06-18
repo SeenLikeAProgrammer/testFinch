@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component} from 'react';
 import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Store from './Components/Store';
+import Table from './Components/Table';
+import Button from './Components/Button';
+import Ticket from './Components/Ticket';
+class App extends  Component{
+	constructor(props){
+		super(props);
+		this.state={winner:false};
+	}
+	componentWillMount(){
+		Store.addAjaxErrorListener(this.onErrorAjax)
+	}
+	onErrorAjax = () => {
+		alert('Прошло 3 запроса, а AJAX так и не ответил. Информация по каждому запросу отображена в консоли')
+	}
+	onResult = (win) => {
+		this.setState({winner:win});
+	}
+	render(){
+		return(
+			<Ticket 
+			onResult={this.onResult}
+			name='Билет 1'
+			winner={this.state.winner}/>
+		)
+	}
 }
 
 export default App;
